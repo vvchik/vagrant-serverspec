@@ -1,9 +1,11 @@
 # vagrant-serverspec
 
 vagrant-serverspec is a [vagrant](http://vagrantup.com) plugin that implements
-serverspec as a provisioner.
+[serverspec](http://serverspec.org) as a provisioner.
 
-## Example Usage
+Issues and pull requests are welcome.
+
+## Example Vagrantfile
 
 ```ruby
 Vagrant.require_plugin('vagrant-serverspec')
@@ -22,3 +24,10 @@ Vagrant.configure('2') do |config|
   end
 end
 ```
+
+## TODO
+
+* Gem release
+* Documentation
+* Fork a child process to sandbox RSpec execution
+* Integrate RSpec's error reporting with Vagrant's UI api
