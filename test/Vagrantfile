@@ -1,11 +1,3 @@
-# vagrant-serverspec
-
-vagrant-serverspec is a [vagrant](http://vagrantup.com) plugin that implements
-serverspec as a provisioner.
-
-## Example Usage
-
-```ruby
 Vagrant.require_plugin('vagrant-serverspec')
 
 Vagrant.configure('2') do |config|
@@ -21,4 +13,3 @@ Vagrant.configure('2') do |config|
     spec.pattern = '*_spec.rb'
   end
 end
-```
