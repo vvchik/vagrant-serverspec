@@ -56,10 +56,3 @@ describe port(22) do
   it { should be_listening }
 end
 ```
-
-## TODO
-
-- Gem release
-- Documentation
-- Fork a child process to sandbox RSpec execution
-- Integrate RSpec's error reporting with Vagrant's UI api
