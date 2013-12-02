@@ -13,7 +13,7 @@ GIT
 PATH
   remote: .
   specs:
-    vagrant-serverspec (1.0.0)
+    vagrant-serverspec (0.0.1)
       serverspec (~> 0.12.0)
 
 GEM
