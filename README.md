@@ -59,7 +59,7 @@ end
 
 ## TODO
 
-- [ ] Gem release
-- [ ] Documentation
-- [ ] Fork a child process to sandbox RSpec execution
-- [ ] Integrate RSpec's error reporting with Vagrant's UI api
+- Gem release
+- Documentation
+- Fork a child process to sandbox RSpec execution
+- Integrate RSpec's error reporting with Vagrant's UI api
