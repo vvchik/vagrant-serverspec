@@ -6,14 +6,14 @@ module VagrantPlugins
       This plugin executes a serverspec suite against a running Vagrant instance.
       DESC
 
-      config(:serverspec, :provisioner) do
+      config(:serverspec) do
         require_relative 'config'
         Config
       end
 
-      provisioner(:serverspec) do
-        require_relative 'provisioner'
-        Provisioner
+      command(:serverspec) do
+        require_relative 'command'
+        Command
       end
     end
   end

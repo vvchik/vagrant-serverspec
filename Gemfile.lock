@@ -14,13 +14,17 @@ PATH
   remote: .
   specs:
     vagrant-serverspec (0.0.1)
+      ci_reporter (~> 1.9.0)
       serverspec (~> 0.12.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    builder (3.2.2)
     childprocess (0.3.9)
       ffi (~> 1.0, >= 1.0.11)
+    ci_reporter (1.9.0)
+      builder (>= 2.1.2)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     ffi (1.9.3)
@@ -44,7 +48,7 @@ GEM
       net-ssh
       rspec (>= 2.13.0)
       specinfra (>= 0.0.2)
-    specinfra (0.0.4)
+    specinfra (0.0.9)
 
 PLATFORMS
   ruby
