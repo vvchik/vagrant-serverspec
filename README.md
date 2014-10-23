@@ -7,11 +7,15 @@ Issues and pull requests are welcome.
 
 ## Example Usage
 
-First, you'll need to load the plugin and configure the provisioner.
+First, install the plugin.
+
+```shell
+$ vagrant plugin install vagrant-serverspec
+```
+
+Next, configure the provisioner in your `Vagrantfile`.
 
 ```ruby
-Vagrant.require_plugin('vagrant-serverspec')
-
 Vagrant.configure('2') do |config|
   config.vm.box = 'precise64'
   config.vm.box_url = 'http://cloud-images.ubuntu.com/precise/current/precise-server-cloudimg-vagrant-amd64-disk1.box'
