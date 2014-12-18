@@ -1,5 +1,6 @@
 require 'vagrant-serverspec/plugin'
 require 'vagrant-serverspec/version'
+require 'vagrant-serverspec/error'
 
 module VagrantPlugins
   module ServerSpec

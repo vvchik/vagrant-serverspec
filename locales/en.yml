@@ -7,3 +7,7 @@ en:
           You must list at least one spec file
         missing_spec_files: |-
           These files were specified, but could not be found: %{files}
+    errors:
+      serverspec_failed: |-
+        ServerSpec failed to complete successfully. Any error output should be
+        visible above. Please fix these errors and try again.
