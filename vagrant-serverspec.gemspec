@@ -17,6 +17,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
 
   gem.add_runtime_dependency 'serverspec', '~> 1.16', '>= 1.16.0'
+  gem.add_runtime_dependency 'rspec-its', '>= 1.0.1', '< 1.1.0'
   gem.add_development_dependency 'bundler', '~> 1.6', '>= 1.6.2'
   gem.add_development_dependency 'rake', '~> 10.3', '>= 10.3.2'
 end
