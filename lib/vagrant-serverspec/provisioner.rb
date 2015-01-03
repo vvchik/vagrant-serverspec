@@ -10,12 +10,11 @@ module VagrantPlugins
   module ServerSpec
     class Provisioner < Vagrant.plugin('2', :provisioner)
       def initialize(machine, config)
-        super(machine, config)
+        super
 
         @spec_files = config.spec_files
 
         if machine.config.vm.communicator == :winrm
-          # WinRM
           username = machine.config.winrm.username
           winrm_info = VagrantPlugins::CommunicatorWinRM::Helper.winrm_info(@machine)
           set :backend, :winrm
@@ -57,7 +56,9 @@ module VagrantPlugins
       end
 
       def provision
-        RSpec::Core::Runner.run(@spec_files)
+        status = RSpec::Core::Runner.run(@spec_files)
+
+        raise Vagrant::Errors::ServerSpecFailed if status != 0
       end
     end
   end
