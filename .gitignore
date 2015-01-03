@@ -1,2 +1,4 @@
 .vagrant
 pkg
+Gemfile.lock
+*.gem

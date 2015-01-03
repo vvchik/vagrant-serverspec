@@ -1,4 +1,7 @@
 require 'serverspec'
+require 'pathname'
+require 'winrm'
+require 'net/ssh'
 
 # This implementation executes rspec in-process. Because rspec effectively
 # takes ownership of the global scope, executing rspec within a child process
@@ -11,21 +14,45 @@ module VagrantPlugins
 
         @spec_files = config.spec_files
 
-        RSpec.configure do |spec|
-          spec.before :all do
-            ssh_host                 = machine.ssh_info[:host]
-            ssh_username             = machine.ssh_info[:username]
-            ssh_opts                 = Net::SSH::Config.for(machine.ssh_info[:host])
-            ssh_opts[:port]          = machine.ssh_info[:port]
-            ssh_opts[:forward_agent] = machine.ssh_info[:forward_agent]
-            ssh_opts[:keys]          = machine.ssh_info[:private_key_path]
+        if machine.config.vm.communicator == :winrm
+          # WinRM
+          username = machine.config.winrm.username
+          winrm_info = VagrantPlugins::CommunicatorWinRM::Helper.winrm_info(@machine)
+          set :backend, :winrm
+          set :os, :family => 'windows'
+          user = machine.config.winrm.username
+          pass = machine.config.winrm.password
+          endpoint = "http://#{winrm_info[:host]}:#{winrm_info[:port]}/wsman"
 
-            spec.ssh = Net::SSH.start(ssh_host, ssh_username, ssh_opts)
+          winrm = ::WinRM::WinRMWebService.new(endpoint, :ssl, :user => user, :pass => pass, :basic_auth_only => true)
+          winrm.set_timeout machine.config.winrm.timeout
+          Specinfra.configuration.winrm = winrm
+        else
+          set :backend, :ssh
+          
+          if ENV['ASK_SUDO_PASSWORD']
+            begin
+              require 'highline/import'
+            rescue LoadError
+              fail "highline is not available. Try installing it."
+            end
+            set :sudo_password, ask("Enter sudo password: ") { |q| q.echo = false }
+          else
+            set :sudo_password, ENV['SUDO_PASSWORD']
           end
+          
+          host = machine.ssh_info[:host]
+          
+          options = Net::SSH::Config.for(host)
+          
+          options[:user] = machine.ssh_info[:username]
+          options[:port] = machine.ssh_info[:port]
+          options[:keys] = machine.ssh_info[:private_key_path]
+          options[:password] = machine.ssh_info[:password]
+          options[:forward_agent] = machine.ssh_info[:private_key_path]
 
-          spec.after :all do
-            spec.ssh.close if spec.ssh && !spec.ssh.closed?
-          end
+          set :host,        options[:host_name] || host
+          set :ssh_options, options
         end
       end
 
