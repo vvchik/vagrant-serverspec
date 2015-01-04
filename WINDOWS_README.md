@@ -39,8 +39,8 @@ Vagrant.configure("2") do |config|
 end
 ```
 
-You may want to override standart settings, file named `spec_helper.rb` usually used for that
-For now possible examples is commented in this file
+You may want to override standart settings, file named `spec_helper.rb` usually used for that.
+For now possible examples is commented in this file.
 
 ```ruby
 #require 'serverspec'
