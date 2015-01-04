@@ -5,13 +5,32 @@ vagrant-serverspec is a [vagrant](http://vagrantup.com) plugin that implements
 
 Issues and pull requests are welcome.
 
+## Installing
+### Standart way
+First, install the plugin.
+
+```shell
+$ vagrant plugin install vagrant-serverspec
+```
+### In case of fork usage
+in case of fork usage you need to build it first
+```shell
+gem build vagrant-serverspec.gemspec
+```
+(on windows you may use embedded vagrant ruby for that)
+```shell
+C:\HashiCorp\Vagrant\embedded\bin\gem.bat build vagrant-serverspec.gemspec
+```
+after that install plugin from filesystem
+```shell
+vagrant plugin install ./vagrant-serverspec-0.5.0.gem
+```
+
 ## Example Usage
 
-First, you'll need to load the plugin and configure the provisioner.
+Next, configure the provisioner in your `Vagrantfile`.
 
 ```ruby
-Vagrant.require_plugin('vagrant-serverspec')
-
 Vagrant.configure('2') do |config|
   config.vm.box = 'precise64'
   config.vm.box_url = 'http://cloud-images.ubuntu.com/precise/current/precise-server-cloudimg-vagrant-amd64-disk1.box'
@@ -27,15 +46,18 @@ Vagrant.configure('2') do |config|
 end
 ```
 
-You'll want to place some boilerplate into a file named `spec_helper.rb`
+You may want to override standart settings, file named `spec_helper.rb` usually used for that.
+For now possible examples is commented in this file.
 
 ```ruby
-require 'serverspec'
-require 'pathname'
-require 'net/ssh'
+# Disable sudo
+# set :disable_sudo, true
 
-include SpecInfra::Helper::Ssh
-include SpecInfra::Helper::DetectOS
+# Set environment variables
+# set :env, :LANG => 'C', :LC_MESSAGES => 'C' 
+
+# Set PATH
+# set :path, '/sbin:/usr/local/sbin:$PATH'
 ```
 
 Then you're ready to write your specs.
