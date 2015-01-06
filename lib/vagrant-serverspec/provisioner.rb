@@ -16,7 +16,6 @@ module VagrantPlugins
       
       def provision
         if machine.config.vm.communicator == :winrm
-          # WinRM
           username = machine.config.winrm.username
           winrm_info = VagrantPlugins::CommunicatorWinRM::Helper.winrm_info(@machine)
           set :backend, :winrm
@@ -56,7 +55,9 @@ module VagrantPlugins
           set :ssh_options, options
         end
 
-        RSpec::Core::Runner.run(@spec_files)
+        status = RSpec::Core::Runner.run(@spec_files)
+
+        raise Vagrant::Errors::ServerSpecFailed if status != 0
       end
     end
   end
