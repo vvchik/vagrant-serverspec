@@ -1,8 +1,3 @@
-require 'serverspec'
-require 'pathname'
-require 'winrm'
-require 'net/ssh'
-
 # This implementation executes rspec in-process. Because rspec effectively
 # takes ownership of the global scope, executing rspec within a child process
 # may be preferred.

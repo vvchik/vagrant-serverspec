@@ -9,5 +9,6 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision :serverspec do |spec|
     spec.pattern = '*_spec.rb'
+    #Specinfra.configuration.sudo_password = 'vagrant'
   end
 end
