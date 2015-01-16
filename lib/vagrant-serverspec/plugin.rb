@@ -1,4 +1,10 @@
-module VagrantPlugins
+require 'rspec/core'
+require 'serverspec'
+require 'pathname'
+require 'winrm'
+require 'net/ssh'
+
+ module VagrantPlugins
   module ServerSpec
     class Plugin < Vagrant.plugin('2')
       name 'serverspec'

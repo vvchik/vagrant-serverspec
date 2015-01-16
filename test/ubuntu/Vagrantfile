@@ -1,5 +1,3 @@
-Vagrant.require_plugin('vagrant-serverspec')
-
 Vagrant.configure('2') do |config|
   config.vm.box = 'precise64'
   config.vm.box_url = 'http://cloud-images.ubuntu.com/precise/current/precise-server-cloudimg-vagrant-amd64-disk1.box'
@@ -11,5 +9,6 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision :serverspec do |spec|
     spec.pattern = '*_spec.rb'
+    #Specinfra.configuration.sudo_password = 'vagrant'
   end
 end

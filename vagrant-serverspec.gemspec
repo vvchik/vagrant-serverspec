@@ -16,7 +16,9 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ['lib']
 
-  gem.add_dependency 'serverspec', '~> 1.7', '>= 1.7.0'
+  gem.add_runtime_dependency 'serverspec', '~> 2.7', '>= 2.7.0'
+  gem.add_runtime_dependency 'winrm', '~> 1.1', '>= 1.1.0'
+  #gem.add_runtime_dependency 'highline', '~> 1.6', '>= 1.6.20'
 
   gem.add_development_dependency 'bundler', '~> 1.6', '>= 1.6.2'
   gem.add_development_dependency 'rake', '~> 10.3', '>= 10.3.2'
