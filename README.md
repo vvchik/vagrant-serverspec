@@ -6,7 +6,7 @@ vagrant-serverspec is a [vagrant](http://vagrantup.com) plugin that implements
 Issues and pull requests are welcome.
 
 ## Installing
-### Standart way
+### Standard way
 First, install the plugin.
 
 ```shell
@@ -46,8 +46,7 @@ Vagrant.configure('2') do |config|
 end
 ```
 
-You may want to override standart settings, file named `spec_helper.rb` usually used for that.
-For now possible examples is commented in this file.
+You may want to override standard settings; a file named `spec_helper.rb` is usually used for that. Here are some examples of possible overrides.
 
 ```ruby
 # Disable sudo
