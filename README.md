@@ -1,9 +1,8 @@
 # vagrant-serverspec
+[![Gem Version](https://badge.fury.io/rb/vagrant-serverspec.svg)](http://badge.fury.io/rb/vagrant-serverspec)
 
-vagrant-serverspec is a [vagrant](http://vagrantup.com) plugin that implements
-[serverspec](http://serverspec.org) as a provisioner.
-
-Issues and pull requests are welcome.
+> **vagrant-serverspec is a [vagrant][vagrant] plugin that implements
+> [serverspec][serverspec] as a provisioner.**
 
 ## Installing
 ### Standard way
@@ -77,3 +76,43 @@ describe port(22) do
   it { should be_listening }
 end
 ```
+
+## Versioning
+
+Test Kitchen aims to adhere to [Semantic Versioning 2.0.0][semver].
+
+## Development
+
+* Source hosted at [GitHub][repo]
+* Report issues/questions/feature requests on [GitHub Issues][issues]
+
+Pull requests are very welcome! Make sure your patches are well tested.
+Ideally create a topic branch for every separate change you make. For
+example:
+
+1. Fork the repo
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Added some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
+## Authors
+
+Created and maintained by [Jeremy Voorhis][jvoorhis] (<jvoorhis@gmail.com>) and
+a growing community of [contributors][contributors].
+
+## License
+
+MIT license (see [LICENSE][license])
+
+[vagrant]: http://vagrantup.com
+[serverspec]: http://serverspec.org
+[semver]: http://semver.org/
+
+[repo]: https://github.com/jvoorhis/vagrant-serverspec
+[issues]: https://github.com/jvoorhis/vagrant-serverspec/issues
+
+[jvoorhis]: https://github.com/jvoorhis
+[contributors]: https://github.com/jvoorhis/vagrant-serverspec/graphs/contributors
+
+[license]: https://github.com/jvoorhis/vagrant-serverspec/blob/master/LICENSE
