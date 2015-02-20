@@ -8,7 +8,7 @@ module VagrantPlugins
         super
         @spec_files = config.spec_files
       end
-      
+
       def provision
         if machine.config.vm.communicator == :winrm
           username = machine.config.winrm.username
@@ -24,7 +24,7 @@ module VagrantPlugins
           Specinfra.configuration.winrm = winrm
         else
           set :backend, :ssh
-          
+
           if ENV['ASK_SUDO_PASSWORD']
             begin
               require 'highline/import'
@@ -35,15 +35,15 @@ module VagrantPlugins
           else
             set :sudo_password, ENV['SUDO_PASSWORD']
           end
-          
+
           host = machine.ssh_info[:host]
-          
           options = Net::SSH::Config.for(host)
-          
-          options[:user] = machine.ssh_info[:username]
-          options[:port] = machine.ssh_info[:port]
-          options[:keys] = machine.ssh_info[:private_key_path]
-          options[:password] = machine.ssh_info[:password]
+
+          options[:proxy]         = setup_provider_proxy if use_jump_provider?
+          options[:user]          = machine.ssh_info[:username]
+          options[:port]          = machine.ssh_info[:port]
+          options[:keys]          = machine.ssh_info[:private_key_path]
+          options[:password]      = machine.ssh_info[:password]
           options[:forward_agent] = machine.ssh_info[:private_key_path]
 
           set :host,        options[:host_name] || host
@@ -53,6 +53,37 @@ module VagrantPlugins
         status = RSpec::Core::Runner.run(@spec_files)
 
         raise Vagrant::Errors::ServerSpecFailed if status != 0
+      end
+
+      private
+
+      def setup_provider_proxy
+        ssh_info = machine.provider.host_vm.ssh_info
+        host     = ssh_info[:host]
+        port     = ssh_info[:port]
+        username = ssh_info[:username]
+        key_path = ssh_info[:private_key_path][0]
+
+        proxy_options='-A -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+        Net::SSH::Proxy::Command.new("ssh #{proxy_options} -i #{key_path} -p #{port} #{username}@#{host} nc %h %p")
+      end
+
+      def use_jump_provider?
+        jump_providers = [
+          {
+           name:      "DockerProvider",
+           platforms: ["mac"]
+          }
+        ]
+        current_provider_class = machine.provider.class.name.to_s
+
+        jump_providers.any? do |jump_provider|
+          if current_provider_class.include? jump_provider[:name]
+            jump_provider[:platforms].any? do |platform|
+              OS.send("#{platform}?")
+            end
+          end
+        end
       end
     end
   end

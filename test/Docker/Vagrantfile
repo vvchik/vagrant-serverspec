@@ -1,0 +1,17 @@
+Vagrant.configure('2') do |config|
+  config.vm.provider "docker" do |d|
+    d.vagrant_vagrantfile = "./Docker_Vagrantfile"
+    d.image = "jjhughes57/docker-vagrant-ubuntu"
+    d.has_ssh = true
+  end
+
+  config.vm.provision :shell, inline: <<-EOF
+    sudo apt-get install -y vim
+    touch /tmp/testfile
+  EOF
+
+  config.vm.provision :serverspec do |spec|
+    spec.pattern = '*_spec.rb'
+    #Specinfra.configuration.sudo_password = 'vagrant'
+  end
+end

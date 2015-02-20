@@ -3,7 +3,8 @@ require 'serverspec'
 require 'pathname'
 require 'winrm'
 require 'net/ssh'
-
+require 'net/ssh/proxy/command'
+require 'os'
  module VagrantPlugins
   module ServerSpec
     class Plugin < Vagrant.plugin('2')
