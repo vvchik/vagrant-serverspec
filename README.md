@@ -79,7 +79,7 @@ end
 
 ## Versioning
 
-Test Kitchen aims to adhere to [Semantic Versioning 2.0.0][semver].
+vagrant-serverspec aims to adhere to [Semantic Versioning 2.0.0][semver].
 
 ## Development
 
