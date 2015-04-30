@@ -77,6 +77,9 @@ describe port(22) do
 end
 ```
 
+##Testing Docker Containers on OSX
+On OSX the Vagrant docker provider runs a Boot2Docker VM, then launches your docker container on that VM. Vagrant does SSH Proxying to send the commands through that VM and have them reach the Docker Container. Vagrant serverspec handles this the same way by getting the container host VM infromation and proxying the commands to the machine through an SSH Proxy. This functionality was introduced in this [PR](https://github.com/jvoorhis/vagrant-serverspec/pull/17) 
+
 ## Versioning
 
 Test Kitchen aims to adhere to [Semantic Versioning 2.0.0][semver].
