@@ -25,6 +25,15 @@ module VagrantPlugins
         else
           set :backend, :ssh
 
+          # Close the existing ssh connection if it exists.
+          # Else, the existing connection will always used between different
+          # serverspec provisions using the same process and can connect to a
+          # previous host
+          if Specinfra::Backend::Ssh.instance.get_config(:ssh)
+            Specinfra::Backend::Ssh.instance.get_config(:ssh).close
+            Specinfra::Backend::Ssh.instance.set_config(:ssh, nil)
+          end
+
           if ENV['ASK_SUDO_PASSWORD']
             begin
               require 'highline/import'
@@ -49,6 +58,10 @@ module VagrantPlugins
           set :host,        options[:host_name] || host
           set :ssh_options, options
         end
+
+        # Always clean examples to not have duplicates between runs using the
+        # same process
+        RSpec.clear_examples
 
         status = RSpec::Core::Runner.run(@spec_files)
 
