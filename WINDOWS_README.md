@@ -1,4 +1,5 @@
-# vagrant-serverspec Windows readme
+### Vagrant-ServerSpec Windows Readme
+***
 
 vagrant-serverspec is a [vagrant](http://vagrantup.com) plugin that implements
 [serverspec](http://serverspec.org) as a provisioner.
@@ -49,11 +50,14 @@ For now possible examples is commented in this file.
 #set :backend, :winrm
 #set :os, :family => 'windows'
 
-#user = 'vagrant'
-#pass = 'vagrant'
-#endpoint = "http://#{ENV['TARGET_HOST']}:5985/wsman"
-#winrm = ::WinRM::WinRMWebService.new(endpoint, :ssl, :user => user, :pass => pass, :basic_auth_only => true)
-#winrm.set_timeout 300 # 5 minutes max timeout for any operation
+#opts = {
+#        endpoint: "http://#{ENV['TARGET_HOST']}:5985/wsman",
+#        user: 'vagrant',
+#        password: 'vagrant',
+#        transport: :ssl,
+#        operation_timeout: 300 # 5 minutes max timeout for any operation 
+#       }
+# winrm = ::WinRM::Connection.new(opts)
 #Specinfra.configuration.winrm = winrm
 ```
 
