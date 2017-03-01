@@ -15,12 +15,15 @@ module VagrantPlugins
           winrm_info = VagrantPlugins::CommunicatorWinRM::Helper.winrm_info(@machine)
           set :backend, :winrm
           set :os, :family => 'windows'
-          user = machine.config.winrm.username
-          pass = machine.config.winrm.password
-          endpoint = "http://#{winrm_info[:host]}:#{winrm_info[:port]}/wsman"
 
-          winrm = ::WinRM::WinRMWebService.new(endpoint, :ssl, :user => user, :pass => pass, :basic_auth_only => true)
-          winrm.set_timeout machine.config.winrm.timeout
+          opts = {
+              endpoint: "http://#{winrm_info[:host]}:#{winrm_info[:port]}/wsman",
+              user: machine.config.winrm.username,
+              password: machine.config.winrm.password,
+              transport: :ssl,
+              operation_timeout: machine.config.winrm.timeout
+          }
+          winrm = ::WinRM::Connection.new(opts)
           Specinfra.configuration.winrm = winrm
         else
           set :backend, :ssh
@@ -101,3 +104,4 @@ module VagrantPlugins
     end
   end
 end
+
