@@ -1,4 +1,6 @@
-# vagrant-serverspec
+### Vagrant-Serverspec
+***
+
 [![Gem Version](https://badge.fury.io/rb/vagrant-serverspec.svg)](http://badge.fury.io/rb/vagrant-serverspec)
 
 > **vagrant-serverspec is a [vagrant][vagrant] plugin that implements
