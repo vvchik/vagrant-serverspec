@@ -7,6 +7,8 @@ module VagrantPlugins
       def initialize(machine, config)
         super
         @spec_files = config.spec_files
+        @spec_pattern = config.spec_pattern
+        @error_no_spec_files_found = config.error_no_spec_files_found
       end
 
       def provision
@@ -66,9 +68,32 @@ module VagrantPlugins
         # same process
         RSpec.clear_examples
 
-        status = RSpec::Core::Runner.run(@spec_files)
+        @spec_files = Dir.glob(@spec_pattern)
+        raise Vagrant::Errors::ServerSpecFilesNotFound if @spec_files.length == 0 and @error_no_spec_files_found
 
-        raise Vagrant::Errors::ServerSpecFailed if status != 0
+        if config.html_output_format
+          require 'json'
+          require 'rspec'
+          require 'rspec_html_formatter'
+          config_rspec = RSpec.configuration
+          formatter = RspecHtmlFormatter.new(config_rspec.output_stream)
+
+          # create reporter with RspecHtmlFormatter
+          reporter =  RSpec::Core::Reporter.new(config_rspec)
+          config_rspec.instance_variable_set(:@reporter, reporter)
+
+          # api may not be stable, make sure lock down Rspec version
+          loader = config_rspec.send(:formatter_loader)
+          notifications = loader.send(:notifications_for, RspecHtmlFormatter)
+          reporter.register_listener(formatter, *notifications)
+	        
+          status = RSpec::Core::Runner.run(@spec_files)
+          raise Vagrant::Errors::ServerSpecFailedHtml if status != 0
+        else
+          status = RSpec::Core::Runner.run(@spec_files)
+          raise Vagrant::Errors::ServerSpecFailed if status != 0
+        end
+        
       end
 
       private

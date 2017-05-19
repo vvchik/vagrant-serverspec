@@ -21,6 +21,7 @@ Gem::Specification.new do |gem|
   #add onlly dependencies for winrm without nokogiri
   gem.add_runtime_dependency 'winrm', '~> 2.1', '>= 2.1'
   gem.add_runtime_dependency 'os', '~> 0.9.6'
+  gem.add_runtime_dependency 'rspec_html_formatter', '~> 0.3', '>= 0.3.1'
   
   gem.add_development_dependency 'bundler', '~> 1.6', '>= 1.6.2'
   gem.add_development_dependency 'rake', '~> 10.3', '>= 10.3.2'
