@@ -11,3 +11,9 @@ en:
       serverspec_failed: |-
         ServerSpec failed to complete successfully. Any error output should be
         visible above. Please fix these errors and try again.
+      serverspec_failed_html: |-
+        ServerSpec failed to complete successfully. Any error output should be
+        visible above. Please fix these errors and try again. Please look into 'rspec_html_reports'
+        directory to see errors into 'overview.html' file
+      serverspec_filesnotfound: |-
+        ServerSpec failed to find any spec files.
