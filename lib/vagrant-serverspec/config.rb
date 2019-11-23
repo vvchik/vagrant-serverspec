@@ -5,12 +5,17 @@ module VagrantPlugins
       attr_accessor :spec_pattern
       attr_accessor :error_no_spec_files_found
       attr_accessor :html_output_format
+      attr_accessor :junit_output_format
+      attr_accessor :junit_output_format_file_name
+
 
       def initialize
         super
         @spec_files = UNSET_VALUE
         @html_output_format = UNSET_VALUE
         @error_no_spec_files_found = UNSET_VALUE
+        @junit_output_format = UNSET_VALUE
+        @junit_output_format_file_name = UNSET_VALUE
       end
 
       def pattern=(pat)
@@ -30,10 +35,24 @@ module VagrantPlugins
         end
       end
 
+      def junit_output=(junit_out)
+        if [true, false].include? junit_out
+          @junit_output_format = junit_out
+        end
+      end
+
+      def junit_output_file=(junit_out_file)
+        if junit_out_file.end_with?(".xml")
+          @junit_output_format_file_name = junit_out_file
+        end
+      end
+
       def finalize!
         @spec_files = [] if @spec_files == UNSET_VALUE
         @html_output_format = false if @html_output_format == UNSET_VALUE
         @error_no_spec_files_found = true if @error_no_spec_files_found == UNSET_VALUE
+        @junit_output_format = false if @junit_output_format == UNSET_VALUE
+        @junit_output_format_file_name = false if @junit_output_format_file_name == UNSET_VALUE
       end
 
       def validate(machine)

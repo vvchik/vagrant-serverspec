@@ -71,29 +71,40 @@ module VagrantPlugins
         @spec_files = Dir.glob(@spec_pattern)
         raise Vagrant::Errors::ServerSpecFilesNotFound if @spec_files.length == 0 and @error_no_spec_files_found
 
-        if config.html_output_format
+        RSpec.configure do |rconfig|
           require 'json'
           require 'rspec'
-          require 'rspec_html_formatter'
-          config_rspec = RSpec.configuration
-          formatter = RspecHtmlFormatter.new(config_rspec.output_stream)
 
-          # create reporter with RspecHtmlFormatter
-          reporter =  RSpec::Core::Reporter.new(config_rspec)
-          config_rspec.instance_variable_set(:@reporter, reporter)
+          if config.html_output_format
+            require 'rspec_html_formatter'
 
-          # api may not be stable, make sure lock down Rspec version
-          loader = config_rspec.send(:formatter_loader)
-          notifications = loader.send(:notifications_for, RspecHtmlFormatter)
-          reporter.register_listener(formatter, *notifications)
-	        
-          status = RSpec::Core::Runner.run(@spec_files)
+            rconfig.add_formatter "RspecHtmlFormatter"
+          end
+
+          if config.junit_output_format
+            require 'rspec_junit_formatter'
+
+            if config.junit_output_format_file_name
+              file_name = config.junit_output_format_file_name
+            else
+              file_name = 'rspec.xml'
+            end
+
+            rconfig.add_formatter "RSpecJUnitFormatter", file_name
+          end
+        end
+
+        status = RSpec::Core::Runner.run(@spec_files)
+        if config.html_output_format && config.junit_output_format
+          raise Vagrant::Errors::ServerSpecFailedHtmlJunit if status != 0
+        elsif config.html_output_format
           raise Vagrant::Errors::ServerSpecFailedHtml if status != 0
+        elsif config.junit_output_format
+          raise Vagrant::Errors::ServerSpecFailedJunit if status != 0
         else
-          status = RSpec::Core::Runner.run(@spec_files)
           raise Vagrant::Errors::ServerSpecFailed if status != 0
         end
-        
+
       end
 
       private
@@ -129,4 +140,3 @@ module VagrantPlugins
     end
   end
 end
-
