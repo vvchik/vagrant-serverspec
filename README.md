@@ -48,6 +48,10 @@ Vagrant.configure('2') do |config|
     spec.error_no_spec_files = false
     # save result into html an report, saved into a 'rspec_html_reports' directory. Default: false
     spec.html_output = true
+    # save result into junit xml report, default file name is 'rspec.xml'
+    spec.junit_output = true
+    # set custom junit xml report file name
+    spec.junit_output_file = 'junit.xml'
   end
 end
 ```
