@@ -85,7 +85,7 @@ end
 ```
 
 ##Testing Docker Containers on OSX
-On OSX the Vagrant docker provider runs a Boot2Docker VM, then launches your docker container on that VM. Vagrant does SSH Proxying to send the commands through that VM and have them reach the Docker Container. Vagrant serverspec handles this the same way by getting the container host VM infromation and proxying the commands to the machine through an SSH Proxy. This functionality was introduced in this [PR](https://github.com/jvoorhis/vagrant-serverspec/pull/17) 
+On OSX the Vagrant docker provider runs a Boot2Docker VM, then launches your docker container on that VM. Vagrant does SSH Proxying to send the commands through that VM and have them reach the Docker Container. Vagrant serverspec handles this the same way by getting the container host VM infromation and proxying the commands to the machine through an SSH Proxy. This functionality was introduced in this [PR](https://github.com/vvchik/vagrant-serverspec/pull/17) 
 
 ## Additional informations
 
@@ -95,14 +95,14 @@ SSH connection is closed before each provision run.
 This is mandatory if the provision is applied to multiple vms in the same run,
 else all runs will be applied to the first vm (See #22) due to an SSH
 connection which already exists.
-This functionality was introduced in this [PR](https://github.com/jvoorhis/vagrant-serverspec/pull/23)
+This functionality was introduced in this [PR](https://github.com/vvchik/vagrant-serverspec/pull/23)
 
 ### Server spec examples
 
 RSpec examples are clear before each provision run.
 This is mandatory if the provision is applied to multiple vms in the same run,
 else each run replay examples of previous calls also.
-This functionality was introduced in this [PR](https://github.com/jvoorhis/vagrant-serverspec/pull/23)
+This functionality was introduced in this [PR](https://github.com/vvchik/vagrant-serverspec/pull/23)
 
 ### In case of shared examples
 
@@ -130,8 +130,7 @@ example:
 
 ## Authors
 
-Created and maintained by [Jeremy Voorhis][jvoorhis] (<jvoorhis@gmail.com>) and
-a growing community of [contributors][contributors].
+Original idea [Jeremy Voorhis][jvoorhis] (<jvoorhis@gmail.com>) Current Version author and maintainer [Vladimir Babchynskyy]][vvchik] (<vvchik@gmail.com>) and a growing community of [contributors][contributors].
 
 ## License
 
@@ -141,10 +140,8 @@ MIT license (see [LICENSE][license])
 [serverspec]: http://serverspec.org
 [semver]: http://semver.org/
 
-[repo]: https://github.com/jvoorhis/vagrant-serverspec
-[issues]: https://github.com/jvoorhis/vagrant-serverspec/issues
+[repo]: https://github.com/vvchik/vagrant-serverspec
+[issues]: https://github.com/vvchik/vagrant-serverspec/issues
 
-[jvoorhis]: https://github.com/jvoorhis
-[contributors]: https://github.com/jvoorhis/vagrant-serverspec/graphs/contributors
 
-[license]: https://github.com/jvoorhis/vagrant-serverspec/blob/master/LICENSE
+[license]: https://github.com/vvchik/vagrant-serverspec/blob/master/LICENSE
