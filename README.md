@@ -130,7 +130,9 @@ example:
 
 ## Authors
 
-Original idea [Jeremy Voorhis][jvoorhis] (<jvoorhis@gmail.com>) Current Version author and maintainer [Vladimir Babchynskyy]][vvchik] (<vvchik@gmail.com>) and a growing community of [contributors][contributors].
+Original Idea [Jeremy Voorhis][jvoorhis] (<jvoorhis@gmail.com>).  
+Current Version author and maintainer [Vladimir Babchynskyy][vvchik] (<vvchik@gmail.com>)  
+and a growing community of [contributors][contributors].
 
 ## License
 
@@ -143,5 +145,8 @@ MIT license (see [LICENSE][license])
 [repo]: https://github.com/vvchik/vagrant-serverspec
 [issues]: https://github.com/vvchik/vagrant-serverspec/issues
 
+[jvoorhis]: https://github.com/jvoorhis
+[vvchik]: https://github.com/vvchik
+[contributors]: https://github.com/vvchik/vagrant-serverspec/graphs/contributors
 
 [license]: https://github.com/vvchik/vagrant-serverspec/blob/master/LICENSE
