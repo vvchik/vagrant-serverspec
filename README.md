@@ -131,7 +131,7 @@ example:
 ## Authors
 
 Original Idea [Jeremy Voorhis][jvoorhis] (<jvoorhis@gmail.com>).  
-Current Version author and maintainer [Vladimir Babchynskyy][vvchik] (<vvchik@gmail.com>)  
+Current version author and maintainer [Vladimir Babchynskyy][vvchik] (<vvchik@gmail.com>)  
 and a growing community of [contributors][contributors].
 
 ## License
