@@ -1,9 +1,9 @@
 name: Ruby Gem
 
 on:
-  pull_request:
-    branches:
-      - master
+  #pull_request:
+  #  branches:
+  #    - master
   push:
     branches:
       - master
