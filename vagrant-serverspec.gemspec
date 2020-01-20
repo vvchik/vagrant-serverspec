@@ -4,10 +4,10 @@ require 'vagrant-serverspec/version'
 
 Gem::Specification.new do |gem|
   gem.name          = 'vagrant-serverspec'
-  gem.homepage      = 'https://github.com/jvoorhis/vagrant-serverspec'
+  gem.homepage      = 'https://github.com/vvchik/vagrant-serverspec'
   gem.version       = VagrantPlugins::ServerSpec::VERSION
-  gem.authors       = ['Jeremy Voorhis']
-  gem.email         = ['jvoorhis@gmail.com']
+  gem.authors       = ['Jeremy Voorhis', 'Vladimir Babchynskyy', 'community contributors: https://github.com/vvchik/vagrant-serverspec/graphs/contributors']
+  gem.email         = ['vvchik@gmail.com']
   gem.summary       = %q{A Vagrant plugin that executes serverspec}
   gem.description   = "vagrant-serverspec is a Vagrant plugin that integrates serverspec into your workflow."
   gem.license       = 'MIT'
