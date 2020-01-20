@@ -1,5 +1,5 @@
 module VagrantPlugins
   module ServerSpec
-    VERSION = '1.3'
+    VERSION = '1.5'
   end
 end
