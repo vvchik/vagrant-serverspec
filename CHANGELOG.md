@@ -1,3 +1,6 @@
+### v 1.5.1 Mar 02, 2020 
+* Security, update rake build dependency version to 12.3.3
+
 ### v 1.5.0 Nov 25, 2019 
 * Add a new junit formatter 
 

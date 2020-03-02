@@ -26,5 +26,5 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'activesupport', '~> 5.2.3', '>= 5.2'
 
   gem.add_development_dependency 'bundler', '~> 1.17.3', '>= 1.17'
-  gem.add_development_dependency 'rake', '~> 10.3', '>= 10.3.2'
+  gem.add_development_dependency "rake", ">= 12.3.3"
 end
