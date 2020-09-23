@@ -3,6 +3,8 @@ module VagrantPlugins
     class Config < Vagrant.plugin('2', :config)
       attr_accessor :spec_files
       attr_accessor :spec_pattern
+      attr_accessor :spec_excluded_files
+      attr_accessor :spec_exclude_pattern
       attr_accessor :error_no_spec_files_found
       attr_accessor :html_output_format
       attr_accessor :junit_output_format
@@ -12,6 +14,8 @@ module VagrantPlugins
       def initialize
         super
         @spec_files = UNSET_VALUE
+        @spec_excluded_files = UNSET_VALUE
+        @spec_exclude_pattern = UNSET_VALUE
         @html_output_format = UNSET_VALUE
         @error_no_spec_files_found = UNSET_VALUE
         @junit_output_format = UNSET_VALUE
@@ -21,6 +25,11 @@ module VagrantPlugins
       def pattern=(pat)
         @spec_files = Dir.glob(pat)
         @spec_pattern = pat
+      end
+
+      def exclude_pattern=(pat)
+        @spec_excluded_files = Dir.glob(pat)
+        @spec_exclude_pattern = pat
       end
 
       def error_no_spec_files=(warn_spec)
@@ -49,6 +58,9 @@ module VagrantPlugins
 
       def finalize!
         @spec_files = [] if @spec_files == UNSET_VALUE
+        @spec_exclude_pattern = '' if @spec_exclude_pattern == UNSET_VALUE
+        @spec_excluded_files = [] if @spec_excluded_files == UNSET_VALUE
+        @spec_files = @spec_files - @spec_excluded_files
         @html_output_format = false if @html_output_format == UNSET_VALUE
         @error_no_spec_files_found = true if @error_no_spec_files_found == UNSET_VALUE
         @junit_output_format = false if @junit_output_format == UNSET_VALUE
