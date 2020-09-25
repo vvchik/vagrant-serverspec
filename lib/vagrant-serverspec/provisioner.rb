@@ -8,6 +8,8 @@ module VagrantPlugins
         super
         @spec_files = config.spec_files
         @spec_pattern = config.spec_pattern
+        @spec_excluded_files = config.spec_excluded_files
+        @spec_exclude_pattern = config.spec_exclude_pattern
         @error_no_spec_files_found = config.error_no_spec_files_found
       end
 
@@ -69,6 +71,8 @@ module VagrantPlugins
         RSpec.clear_examples
 
         @spec_files = Dir.glob(@spec_pattern)
+        @spec_excluded_files = Dir.glob(@spec_exclude_pattern)
+        @spec_files = @spec_files - @spec_excluded_files
         raise Vagrant::Errors::ServerSpecFilesNotFound if @spec_files.length == 0 and @error_no_spec_files_found
 
         RSpec.configure do |rconfig|
