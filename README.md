@@ -13,16 +13,22 @@ First, install the plugin.
 ```shell
 $ vagrant plugin install vagrant-serverspec
 ```
-### In case of fork usage
-in case of fork usage you need to build it first
+### Fork usage
+
+In case of fork usage you need to build it first
+
 ```shell
 gem build vagrant-serverspec.gemspec
 ```
+
 (on windows you may use embedded vagrant ruby for that)
+
 ```shell
 C:\HashiCorp\Vagrant\embedded\bin\gem.bat build vagrant-serverspec.gemspec
 ```
+
 after that install plugin from filesystem
+
 ```shell
 vagrant plugin install ./vagrant-serverspec-0.5.0.gem
 ```
@@ -58,20 +64,21 @@ Vagrant.configure('2') do |config|
 end
 ```
 
-You may want to override standard settings; a file named `spec_helper.rb` is usually used for that. Here are some examples of possible overrides.
+You may want to override standard settings; a file named `spec_helper.rb` is
+usually used for that. Here are some examples of possible overrides.
 
 ```ruby
 # Disable sudo
 # set :disable_sudo, true
 
 # Set environment variables
-# set :env, :LANG => 'C', :LC_MESSAGES => 'C' 
+# set :env, :LANG => 'C', :LC_MESSAGES => 'C'
 
 # Set PATH
 # set :path, '/sbin:/usr/local/sbin:$PATH'
 ```
 
-Then you're ready to write your specs.
+Then you're ready to write your specs:
 
 ```ruby
 require_relative 'spec_helper'
@@ -90,30 +97,44 @@ describe port(22) do
 end
 ```
 
-##Testing Docker Containers on OSX
-On OSX the Vagrant docker provider runs a Boot2Docker VM, then launches your docker container on that VM. Vagrant does SSH Proxying to send the commands through that VM and have them reach the Docker Container. Vagrant serverspec handles this the same way by getting the container host VM infromation and proxying the commands to the machine through an SSH Proxy. This functionality was introduced in this [PR](https://github.com/vvchik/vagrant-serverspec/pull/17) 
+## Testing Docker Containers on OSX
+On OSX the Vagrant docker provider runs a Boot2Docker VM, then launches your
+Docker container on that VM. Vagrant does SSH proxying to send the commands
+through that VM and then reach the Docker Container.
+
+vagrant-serverspec handles this the same way by getting the container host VM
+infromation and proxying the commands to the machine through an SSH Proxy.
+This functionality was introduced in this
+[PR](https://github.com/vvchik/vagrant-serverspec/pull/17).
 
 ## Additional informations
 
 ### SSH connections
 
 SSH connection is closed before each provision run.
+
 This is mandatory if the provision is applied to multiple vms in the same run,
 else all runs will be applied to the first vm (See #22) due to an SSH
 connection which already exists.
-This functionality was introduced in this [PR](https://github.com/vvchik/vagrant-serverspec/pull/23)
+
+This functionality was introduced in this
+[PR](https://github.com/vvchik/vagrant-serverspec/pull/23).
 
 ### Server spec examples
 
 RSpec examples are clear before each provision run.
-This is mandatory if the provision is applied to multiple vms in the same run,
-else each run replay examples of previous calls also.
-This functionality was introduced in this [PR](https://github.com/vvchik/vagrant-serverspec/pull/23)
 
-### In case of shared examples
+This is mandatory if the provision is applied to multiple VMs in the same run,
+else each run replay examples of previous calls also.
+
+This functionality was introduced in this
+[PR](https://github.com/vvchik/vagrant-serverspec/pull/23).
+
+### Shared examples
 
 If you use shared examples into your test suite, you need to use 'load' instead
-of 'require', else errors can occurs (See #23 comments).
+of 'require', else errors can occurs (see
+[#23](https://github.com/vvchik/vagrant-serverspec/pull/23) comments).
 
 ## Versioning
 
@@ -136,8 +157,8 @@ example:
 
 ## Authors
 
-Original Idea [Jeremy Voorhis][jvoorhis] (<jvoorhis@gmail.com>).  
-Current version author and maintainer [Vladimir Babchynskyy][vvchik] (<vvchik@gmail.com>)  
+Original Idea [Jeremy Voorhis][jvoorhis] (<jvoorhis@gmail.com>).
+Current version author and maintainer [Vladimir Babchynskyy][vvchik] (<vvchik@gmail.com>)
 and a growing community of [contributors][contributors].
 
 ## License
