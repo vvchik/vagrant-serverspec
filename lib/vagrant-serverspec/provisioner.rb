@@ -55,7 +55,7 @@ module VagrantPlugins
           host = machine.ssh_info[:host]
           options = Net::SSH::Config.for(host)
 
-          options[:proxy]         = setup_provider_proxy if use_jump_provider?
+          options[:proxy]         = setup_provider_proxy if use_proxy?
           options[:user]          = machine.ssh_info[:username]
           options[:port]          = machine.ssh_info[:port]
           options[:keys]          = machine.ssh_info[:private_key_path]
@@ -124,21 +124,9 @@ module VagrantPlugins
         Net::SSH::Proxy::Command.new("ssh #{proxy_options} -i #{key_path} -p #{port} #{username}@#{host} nc %h %p")
       end
 
-      def use_jump_provider?
-        jump_providers = [
-          {
-           name:      "DockerProvider",
-           platforms: ["mac"]
-          }
-        ]
-        current_provider_class = machine.provider.class.name.to_s
-
-        jump_providers.any? do |jump_provider|
-          if current_provider_class.include? jump_provider[:name]
-            jump_provider[:platforms].any? do |platform|
-              OS.send("#{platform}?")
-            end
-          end
+      def use_proxy?
+        if machine.provider.class.name.to_s. == 'DockerProvider'
+          return machine.provider.config.force_host_vm
         end
       end
     end
