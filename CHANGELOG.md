@@ -1,5 +1,5 @@
 
-### v 2.0.0 (unreleased)
+### v 2.0.0 Nov 04, 2026
 
 Major version: the plugin now targets Vagrant 2.4.x / Ruby 3.x. Closes all open
 Dependabot alerts (bundler 1.x, activesupport 5.2).
@@ -30,8 +30,9 @@ Dependabot alerts (bundler 1.x, activesupport 5.2).
 * Added an RSpec unit test suite (`spec/`) and a GitHub Actions workflow that
   runs it on Ruby 3.1 - 3.4, builds the gem, installs it into Vagrant and
   validates the sample Vagrantfile.
-* Gem publish workflow now runs on `v*` tags and uses `ruby/setup-ruby`
-  (`actions/setup-ruby` is archived).
+* Gem publish workflow now runs on `v*` tags, uses `ruby/setup-ruby`
+  (`actions/setup-ruby` is archived) and publishes through RubyGems trusted
+  publishing (OIDC) instead of a stored API key.
 
 ### v 1.5.3 (unreleased)
 * fix: SSH Proxy command with Docker is only used when the host VM is enabled

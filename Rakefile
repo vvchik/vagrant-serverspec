@@ -1,9 +1,5 @@
-require 'bundler/gem_helper'
+require 'bundler/gem_tasks'   # build, install, release (used by rubygems/release-gem in CI)
 require 'rspec/core/rake_task'
-
-namespace :gem do
-  Bundler::GemHelper.install_tasks
-end
 
 RSpec::Core::RakeTask.new(:spec)
 
