@@ -10,3 +10,8 @@
 pkg
 tags
 Gemfile.lock
+vendor/
+
+# test output
+rspec_html_reports/
+rspec.xml

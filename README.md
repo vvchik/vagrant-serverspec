@@ -6,6 +6,10 @@
 > **vagrant-serverspec is a [vagrant][vagrant] plugin that implements
 > [serverspec][serverspec] as a provisioner.**
 
+## Requirements
+
+* Vagrant 2.4.x (Ruby 3.0 - 3.4). For Vagrant 2.2.x use vagrant-serverspec 1.5.x.
+
 ## Installing
 ### Standard way
 First, install the plugin.
@@ -24,7 +28,7 @@ C:\HashiCorp\Vagrant\embedded\bin\gem.bat build vagrant-serverspec.gemspec
 ```
 after that install plugin from filesystem
 ```shell
-vagrant plugin install ./vagrant-serverspec-0.5.0.gem
+vagrant plugin install ./vagrant-serverspec-2.0.0.gem
 ```
 
 ## Example Usage
@@ -48,7 +52,7 @@ Vagrant.configure('2') do |config|
     spec.exclude_pattern = 'but_not_*_spec.rb'
     # disable error if no specfile was found ( useful with dynamic specfile retrieving through another provisionner like Ansible Galaxy => specfiles can be saved into ansible role repository for example ). Default: true
     spec.error_no_spec_files = false
-    # save result into html an report, saved into a 'rspec_html_reports' directory. Default: false
+    # save result into an html report (RSpec's built-in html formatter), written to 'rspec_html_reports/overview.html'. Default: false
     spec.html_output = true
     # save result into junit xml report, default file name is 'rspec.xml'
     spec.junit_output = true
@@ -131,6 +135,13 @@ vagrant-serverspec aims to adhere to [Semantic Versioning 2.0.0][semver].
 
 * Source hosted at [GitHub][repo]
 * Report issues/questions/feature requests on [GitHub Issues][issues]
+
+Running the test suite:
+
+```shell
+bundle install
+bundle exec rspec
+```
 
 Pull requests are very welcome! Make sure your patches are well tested.
 Ideally create a topic branch for every separate change you make. For

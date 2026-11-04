@@ -12,19 +12,26 @@ Gem::Specification.new do |gem|
   gem.description   = "vagrant-serverspec is a Vagrant plugin that integrates serverspec into your workflow."
   gem.license       = 'MIT'
 
-  gem.files         = `git ls-files`.split($/)
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  gem.metadata = {
+    'homepage_uri'    => gem.homepage,
+    'source_code_uri' => gem.homepage,
+    'changelog_uri'   => "#{gem.homepage}/blob/master/CHANGELOG.md",
+    'bug_tracker_uri' => "#{gem.homepage}/issues",
+  }
+
+  # Vagrant 2.4.x supports Ruby 3.0 - 3.4
+  gem.required_ruby_version = '>= 3.0'
+
+  gem.files         = `git ls-files -z`.split("\x0").reject { |f| f.start_with?('test/', '.github/') }
   gem.require_paths = ['lib']
 
-  gem.add_runtime_dependency 'serverspec', '~> 2.30', '>= 2.30'
+  gem.add_runtime_dependency 'serverspec', '~> 2.43'
 
-  #add only dependencies for winrm without nokogiri
-  gem.add_runtime_dependency 'winrm', '~> 2.1', '>= 2.1'
-  gem.add_runtime_dependency 'os', '~> 0.9.6'
-  gem.add_runtime_dependency 'rspec_html_formatter', '~> 0.3', '>= 0.3.1'
-  gem.add_runtime_dependency 'rspec_junit_formatter', '~> 0.4'
-  gem.add_runtime_dependency 'activesupport', '~> 5.2.3', '>= 5.2'
+  # Keep winrm in the range accepted by Vagrant 2.4.x (>= 2.3.9, < 3.0)
+  gem.add_runtime_dependency 'winrm', '~> 2.3', '>= 2.3.9'
+  # HTML output uses RSpec's built-in html formatter (no extra gem needed).
+  gem.add_runtime_dependency 'rspec_junit_formatter', '~> 0.6'
 
-  gem.add_development_dependency 'bundler', '~> 1.17.3', '>= 1.17'
-  gem.add_development_dependency "rake", ">= 12.3.3"
+  gem.add_development_dependency 'rake', '~> 13.0'
+  gem.add_development_dependency 'rspec', '~> 3.12'
 end

@@ -4,6 +4,8 @@
 module VagrantPlugins
   module ServerSpec
     class Provisioner < Vagrant.plugin('2', :provisioner)
+      HTML_REPORT_DIR = 'rspec_html_reports'.freeze
+
       def initialize(machine, config)
         super
         @spec_files = config.spec_files
@@ -15,7 +17,6 @@ module VagrantPlugins
 
       def provision
         if machine.config.vm.communicator == :winrm
-          username = machine.config.winrm.username
           winrm_info = VagrantPlugins::CommunicatorWinRM::Helper.winrm_info(@machine)
           set :backend, :winrm
           set :os, :family => 'windows'
@@ -80,9 +81,12 @@ module VagrantPlugins
           require 'rspec'
 
           if config.html_output_format
-            require 'rspec_html_formatter'
+            # RSpec's built-in HTML formatter. The third-party rspec_html_formatter
+            # gem used before 2.0 is unmaintained and does not run on Ruby >= 3.2.
+            require 'fileutils'
+            FileUtils.mkdir_p(HTML_REPORT_DIR)
 
-            rconfig.add_formatter "RspecHtmlFormatter"
+            rconfig.add_formatter 'html', File.join(HTML_REPORT_DIR, 'overview.html')
           end
 
           if config.junit_output_format
@@ -125,9 +129,10 @@ module VagrantPlugins
       end
 
       def use_proxy?
-        if machine.provider.class.name.to_s. == 'DockerProvider'
-          return machine.provider.config.force_host_vm
-        end
+        # Vagrant's Docker provider class is VagrantPlugins::DockerProvider::Provider
+        return false unless machine.provider.class.name.to_s.include?('DockerProvider')
+
+        machine.provider.config.force_host_vm ? true : false
       end
     end
   end
