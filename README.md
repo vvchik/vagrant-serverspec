@@ -65,7 +65,7 @@ You may want to override standard settings; a file named `spec_helper.rb` is usu
 # set :disable_sudo, true
 
 # Set environment variables
-# set :env, :LANG => 'C', :LC_MESSAGES => 'C' 
+# set :env, :LANG => 'C', :LC_MESSAGES => 'C'
 
 # Set PATH
 # set :path, '/sbin:/usr/local/sbin:$PATH'
@@ -90,8 +90,16 @@ describe port(22) do
 end
 ```
 
-##Testing Docker Containers on OSX
-On OSX the Vagrant docker provider runs a Boot2Docker VM, then launches your docker container on that VM. Vagrant does SSH Proxying to send the commands through that VM and have them reach the Docker Container. Vagrant serverspec handles this the same way by getting the container host VM infromation and proxying the commands to the machine through an SSH Proxy. This functionality was introduced in this [PR](https://github.com/vvchik/vagrant-serverspec/pull/17) 
+## Docker Provider
+
+When using the [Docker provider](https://www.vagrantup.com/docs/providers/docker), Vagrant allows to either use the local Docker Engine
+or to spin up an [Host VM](https://www.vagrantup.com/docs/providers/docker/basics#host-vm) to host the Docker Engine.
+
+Vagrant serverspec handles both cases, in particular the Host VM by getting its informations and proxying the commands to the container through an SSH Proxy.
+This functionality was introduced in this [PR](https://github.com/vvchik/vagrant-serverspec/pull/17).
+
+The SSH Proxy is used when the attribute [`force_host_vm`](https://www.vagrantup.com/docs/providers/docker/configuration#force_host_vm) is set to true
+(auto-detected by Vagrant by default, or defined in your `Vagrantfile`).
 
 ## Additional informations
 
@@ -136,8 +144,8 @@ example:
 
 ## Authors
 
-Original Idea [Jeremy Voorhis][jvoorhis] (<jvoorhis@gmail.com>).  
-Current version author and maintainer [Vladimir Babchynskyy][vvchik] (<vvchik@gmail.com>)  
+Original Idea [Jeremy Voorhis][jvoorhis] (<jvoorhis@gmail.com>).
+Current version author and maintainer [Vladimir Babchynskyy][vvchik] (<vvchik@gmail.com>)
 and a growing community of [contributors][contributors].
 
 ## License
