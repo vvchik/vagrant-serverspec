@@ -1,20 +1,28 @@
 name: Ruby Gem
 
+# Release flow: bump VERSION + CHANGELOG, merge to master, push tag vX.Y.Z.
+# Publishes via RubyGems trusted publishing (OIDC) - no API key secret needed.
+# One-time setup: https://rubygems.org/gems/vagrant-serverspec/trusted_publishers
+#   owner vvchik, repository vagrant-serverspec, workflow gempush.yml, environment release
+
 on:
   push:
     tags:
       - 'v*'
 
-permissions:
-  contents: read
-
 jobs:
-  build:
-    name: Build + Publish
+  release:
+    name: Build + Publish to RubyGems
     runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write   # rake release pushes the tag; gh creates the GitHub release
+      id-token: write   # mandatory for trusted publishing
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
 
     - uses: ruby/setup-ruby@v1
       with:
@@ -25,13 +33,21 @@ jobs:
     - name: Run tests
       run: bundle exec rspec
 
-    - name: Publish to RubyGems
+    - name: Check that the tag matches the gem version
       run: |
-        mkdir -p $HOME/.gem
-        touch $HOME/.gem/credentials
-        chmod 0600 $HOME/.gem/credentials
-        printf -- "---\n:rubygems_api_key: ${GEM_HOST_API_KEY}\n" > $HOME/.gem/credentials
-        gem build *.gemspec
-        gem push *.gem
+        version=$(ruby -Ilib -rvagrant-serverspec/version -e 'print VagrantPlugins::ServerSpec::VERSION')
+        if [ "v${version}" != "${GITHUB_REF_NAME}" ]; then
+          echo "Tag ${GITHUB_REF_NAME} does not match VERSION ${version}" >&2
+          exit 1
+        fi
+
+    - uses: rubygems/release-gem@v1
+
+    - name: Create GitHub release
       env:
-        GEM_HOST_API_KEY: ${{secrets.RUBYGEMS_AUTH_TOKEN}}
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        gh release create "${GITHUB_REF_NAME}" pkg/*.gem \
+          --title "${GITHUB_REF_NAME}" \
+          --notes "See CHANGELOG.md: https://github.com/${GITHUB_REPOSITORY}/blob/${GITHUB_REF_NAME}/CHANGELOG.md" \
+          --verify-tag

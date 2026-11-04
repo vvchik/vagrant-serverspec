@@ -143,6 +143,10 @@ bundle install
 bundle exec rspec
 ```
 
+Releasing: bump `lib/vagrant-serverspec/version.rb` and `CHANGELOG.md`, merge to
+`master`, then push a `vX.Y.Z` tag. GitHub Actions publishes the gem to
+rubygems.org via trusted publishing and creates the GitHub release.
+
 Pull requests are very welcome! Make sure your patches are well tested.
 Ideally create a topic branch for every separate change you make. For
 example:
