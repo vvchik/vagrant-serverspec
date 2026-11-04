@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
-group :development do
-  gem 'vagrant', git: 'git://github.com/hashicorp/vagrant', tag: 'v2.2.6'
-end
-
 gemspec
+
+group :development do
+  # Vagrant is published on rubygems.org since 2.3.x; no need to pull it from git anymore.
+  gem 'vagrant', '~> 2.4', '>= 2.4.0'
+end
