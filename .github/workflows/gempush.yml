@@ -43,11 +43,15 @@ jobs:
 
     - uses: rubygems/release-gem@v1
 
-    - name: Create GitHub release
+    - name: Create GitHub release (or attach the gem to an existing one)
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
-        gh release create "${GITHUB_REF_NAME}" pkg/*.gem \
-          --title "${GITHUB_REF_NAME}" \
-          --notes "See CHANGELOG.md: https://github.com/${GITHUB_REPOSITORY}/blob/${GITHUB_REF_NAME}/CHANGELOG.md" \
-          --verify-tag
+        if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
+          gh release upload "${GITHUB_REF_NAME}" pkg/*.gem --clobber
+        else
+          gh release create "${GITHUB_REF_NAME}" pkg/*.gem \
+            --title "${GITHUB_REF_NAME}" \
+            --notes "See CHANGELOG.md: https://github.com/${GITHUB_REPOSITORY}/blob/${GITHUB_REF_NAME}/CHANGELOG.md" \
+            --verify-tag
+        fi
