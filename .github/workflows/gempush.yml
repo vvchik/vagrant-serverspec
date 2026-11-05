@@ -3,7 +3,7 @@ name: Ruby Gem
 # Release flow: bump VERSION + CHANGELOG, merge to master, push tag vX.Y.Z.
 # Publishes via RubyGems trusted publishing (OIDC) - no API key secret needed.
 # One-time setup: https://rubygems.org/gems/vagrant-serverspec/trusted_publishers
-#   owner vvchik, repository vagrant-serverspec, workflow gempush.yml, environment release
+#   owner vvchik, repository vagrant-serverspec, workflow gempush.yml, environment Release
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
   release:
     name: Build + Publish to RubyGems
     runs-on: ubuntu-latest
-    environment: release
+    environment: Release
     permissions:
       contents: write   # rake release pushes the tag; gh creates the GitHub release
       id-token: write   # mandatory for trusted publishing
