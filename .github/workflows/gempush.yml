@@ -4,11 +4,21 @@ name: Ruby Gem
 # Publishes via RubyGems trusted publishing (OIDC) - no API key secret needed.
 # One-time setup: https://rubygems.org/gems/vagrant-serverspec/trusted_publishers
 #   owner vvchik, repository vagrant-serverspec, workflow gempush.yml, environment Release
+# Can also be run by hand (Actions -> Ruby Gem -> Run workflow) for an existing tag.
 
 on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to publish (e.g. v2.0.0)'
+        required: true
+        type: string
+
+env:
+  RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
 
 jobs:
   release:
@@ -22,6 +32,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        ref: ${{ inputs.tag || github.ref }}
         persist-credentials: false
 
     - uses: ruby/setup-ruby@v1
@@ -36,8 +47,8 @@ jobs:
     - name: Check that the tag matches the gem version
       run: |
         version=$(ruby -Ilib -rvagrant-serverspec/version -e 'print VagrantPlugins::ServerSpec::VERSION')
-        if [ "v${version}" != "${GITHUB_REF_NAME}" ]; then
-          echo "Tag ${GITHUB_REF_NAME} does not match VERSION ${version}" >&2
+        if [ "v${version}" != "${RELEASE_TAG}" ]; then
+          echo "Tag ${RELEASE_TAG} does not match VERSION ${version}" >&2
           exit 1
         fi
 
@@ -47,11 +58,11 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
-        if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
-          gh release upload "${GITHUB_REF_NAME}" pkg/*.gem --clobber
+        if gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
+          gh release upload "${RELEASE_TAG}" pkg/*.gem --clobber
         else
-          gh release create "${GITHUB_REF_NAME}" pkg/*.gem \
-            --title "${GITHUB_REF_NAME}" \
-            --notes "See CHANGELOG.md: https://github.com/${GITHUB_REPOSITORY}/blob/${GITHUB_REF_NAME}/CHANGELOG.md" \
+          gh release create "${RELEASE_TAG}" pkg/*.gem \
+            --title "${RELEASE_TAG}" \
+            --notes "See CHANGELOG.md: https://github.com/${GITHUB_REPOSITORY}/blob/${RELEASE_TAG}/CHANGELOG.md" \
             --verify-tag
         fi
